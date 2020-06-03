@@ -12,7 +12,7 @@ const typeDefs = gql`
     breed: String
   }
   type Query {
-    books: [Book]
+    books(id: String): [Book]
     dogs: [Dog]
   }
 `;
@@ -55,8 +55,8 @@ const dogs = [
 
 const resolvers = {
   Query: {
-    books: () => {
-      return books;
+    books: (_, { id }) => {
+      return books.filter((book) => book.id === id);
     },
     dogs: () => {
       return dogs;

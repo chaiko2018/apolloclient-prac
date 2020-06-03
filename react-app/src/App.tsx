@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent } from "react";
 import {
   ApolloProvider,
   ApolloClient,
@@ -80,7 +80,9 @@ const link = createHttpLink({
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: authLink.concat(httpLink),
+  link: new HttpLink({
+    uri: "http://localhost:4000/",
+  }),
 });
 
 interface BookInterface {
@@ -124,7 +126,7 @@ function AddTodo() {
   );
 }
 
-function DogPhoto({ breed }) {
+function DogPhoto({ breed }: any) {
   const { loading, error, data, refetch } = useQuery(GET_DOG_PHOTO, {
     variables: { breed },
     skip: !breed,
@@ -141,7 +143,11 @@ function DogPhoto({ breed }) {
   );
 }
 
-function MyDogs({ onDogSelected }) {
+interface MyDogsVaribles {
+  onDogSelected: (target: ChangeEvent<HTMLSelectElement>) => void;
+}
+
+function MyDogs({ onDogSelected }: MyDogsVaribles) {
   const { loading, error, data, refetch, networkStatus } = useQuery(GET_DOGS, {
     notifyOnNetworkStatusChange: true,
   });
@@ -164,7 +170,11 @@ function MyDogs({ onDogSelected }) {
   );
 }
 
-function Books({ id }) {
+interface booksVariables {
+  id: String;
+}
+
+function Books({ id }: booksVariables) {
   const { loading, error, data } = useQuery(GET_BOOKS, {
     variables: { id },
   });
@@ -187,12 +197,12 @@ function Books({ id }) {
 function App() {
   const [dogSelect, SetDogSelect] = useState(null);
 
-  const onDogSelected = ({ target }) => {
+  const onDogSelected = ({ target }: any) => {
     SetDogSelect(target.value);
     alert(dogSelect);
   };
 
-  const myb = "100002";
+  const mybook = "100002";
 
   return (
     <ApolloProvider client={client}>
@@ -207,7 +217,7 @@ function App() {
           </Route>
           <Route path="/About" exact component={About}></Route>
           <Route path="/Books">
-            <Books id={myb} />
+            <Books id={mybook} />
           </Route>
           <Route path="/Dogs">
             <MyDogs onDogSelected={onDogSelected} />

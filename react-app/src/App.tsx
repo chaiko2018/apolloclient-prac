@@ -206,27 +206,32 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <div>
+      <BrowserRouter>
         <div>
-          <Navbar />
-        </div>
+          <div>
+            <Navbar />
+          </div>
 
-        <Switch>
-          <Route path="/" exact>
-            <p>Welcome Page</p>
-          </Route>
-          <Route path="/About" exact component={About}></Route>
-          <Route path="/Books">
-            <Books id={mybook} />
-          </Route>
-          <Route path="/Dogs">
-            <MyDogs onDogSelected={onDogSelected} />
-          </Route>
-          <Route path="/AddTodo">
-            <AddTodo />
-          </Route>
-        </Switch>
-      </div>
+          <Switch>
+            <Route path="/" exact>
+              <p>Welcome Page</p>
+            </Route>
+            <Route path="/About" exact component={About}></Route>
+            <Route path="/Books">
+              <Books id={mybook} />
+            </Route>
+            <Route path="/Dogs">
+              <MyDogs onDogSelected={onDogSelected} />
+            </Route>
+            <Route path="/AddTodo">
+              <AddTodo />
+            </Route>
+          </Switch>
+
+          <Books id={mybook} />
+          <MyDogs onDogSelected={onDogSelected} />
+        </div>
+      </BrowserRouter>
     </ApolloProvider>
   );
 }
